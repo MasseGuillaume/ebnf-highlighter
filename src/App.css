@@ -9,8 +9,15 @@ pre {
   bottom: 0;
 }
 
-.column {
+.ebnf-column {
+  width: 66.6%;
+}
+
+.output-column {
   width: 33.3%;
+}
+
+.column {
   box-sizing: border-box;
   float: left;
 

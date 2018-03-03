@@ -181,7 +181,10 @@ class App extends Component {
       this.setState({ parser: this.state.parser, parserOk: true });
       this.parse();
     } catch (e) {
-      this.setState({ parserOk: e.toString() });
+      console.log(e);
+      var msg = e.toString();
+      var out = msg.slice(0, msg.indexOf("\n"));
+      this.setState({ parserOk: out });
     }
   }
 
@@ -246,8 +249,13 @@ class App extends Component {
           </select>
         </div>
 
-        <div className="column">
-          <span>EBNF {this.state.parserOk === true ? <b style={{ color: 'green' }}>OK</b> : <b style={{ color: 'red' }}>{this.state.parserOk}</b>}</span>
+        <div className="ebnf-column column">
+          <span>EBNF 
+            {this.state.parserOk === true ? 
+                <b style={{ color: 'green' }}>OK</b> :
+                <b style={{ color: 'red' }}>{this.state.parserOk}</b>
+            }
+          </span>
 
           <MonacoEditor
             className="editor"
@@ -261,20 +269,19 @@ class App extends Component {
             editorWillMount={this.editorWillMount.bind(this) }
             />
         </div>
-        <div className="column">
+        <div className="output-column column">
           <span>Test code</span>
 
           <MonacoEditor
             width="calc(100% - 2px)"
-            height="100%"
+            height="50%"
             language="custom"
             value={this.state.selectedExample.example}
             options={options}
             onChange={this.handleChangeExample.bind(this) }
             editorDidMount={this.codeEditorDidMount.bind(this) }
             />
-        </div>
-        <div className="column">
+        
           <span>AST (Hover to highlight) </span>
           <pre>{printAST(this.state.ast, 1, this) }</pre>
         </div>
